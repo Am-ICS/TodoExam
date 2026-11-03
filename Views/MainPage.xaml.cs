@@ -1,23 +1,21 @@
-﻿namespace TodoExplorer.Views;
+﻿using TodoExplorer.ViewModels;
+
+namespace TodoExplorer.Views;
 
 public partial class MainPage : ContentPage
 {
-	int count = 0;
+	private IViewModelMainPage _viewModelMainPage;
 
-	public MainPage()
+	public MainPage(IViewModelMainPage viewModelMainPage)
 	{
 		InitializeComponent();
+		_viewModelMainPage = viewModelMainPage;
+		BindingContext = _viewModelMainPage;
 	}
 
-	private void OnCounterClicked(object? sender, EventArgs e)
+	protected override async void OnAppearing()
 	{
-		count++;
-
-		if (count == 1)
-			CounterBtn.Text = $"Clicked {count} time";
-		else
-			CounterBtn.Text = $"Clicked {count} times";
-
-		SemanticScreenReader.Announce(CounterBtn.Text);
+		base.OnAppearing();
+		await _viewModelMainPage.LoadTodoAsync();
 	}
 }
