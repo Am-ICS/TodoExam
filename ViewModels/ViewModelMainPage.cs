@@ -7,7 +7,7 @@ using TodoExplorer.Services;
 
 namespace TodoExplorer.ViewModels;
 
-public partial class ViewModelMainPage : ObservableObject, IViewModelMainPage
+public partial class ViewModelMainPage : ObservableObject, IViewModelMainPage 
 {
     private IFavoritesStorage _favoritesStorage;
     private ITodoService _service;
@@ -36,6 +36,12 @@ public partial class ViewModelMainPage : ObservableObject, IViewModelMainPage
         _favoritesStorage = favoritesStorage;
         _service = service;
 
+    }
+
+    [RelayCommand]
+    private void SelectedTodo(Todo todo)
+    {
+        
     }
 
     public async Task LoadTodoAsync()
@@ -105,14 +111,14 @@ public partial class ViewModelMainPage : ObservableObject, IViewModelMainPage
 
     [RelayCommand]
     private void ToggleFilter()
-    {
+    { 
         IsVisible = !IsVisible;
     }
 
     [RelayCommand]
     private async Task Favorite(Todo todo)
     { 
-        todo.IsFavorite = !todo.IsFavorite;l;
+        todo.IsFavorite = !todo.IsFavorite;
 
         List<int> favoriteIds = alltodos
             .Where(todo => todo.IsFavorite == true)

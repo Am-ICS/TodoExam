@@ -1,0 +1,30 @@
+﻿using TodoExplorer.Models;
+using TodoExplorer.ViewModels;
+using TodoExplorer.Views;
+
+namespace TodoExplorer.Services;
+
+public class NavigationService : INavigationService
+{
+    private INavigation _navigation;
+    public void SetNavigation(INavigation navigation)
+    {
+        this._navigation = navigation;
+    }
+
+    public async Task PopAsync()
+    {
+        await this._navigation.PopAsync();
+    }
+
+    public async Task GoToTaskDetailAsync(Todo todo)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task GoToFavorites(IFavoritesPageViewModel 
+        favoritesViewModel)
+    {
+        await this._navigation.PushAsync(new FavoritesPage(favoritesViewModel));
+    }
+}

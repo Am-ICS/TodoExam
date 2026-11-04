@@ -1,10 +1,74 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="TodoExplorer.Views.FavoritesPage">
-    <ScrollView>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="TodoExplorer.Views.FavoritesPage"
+    Title="Favorites"
+    BackgroundColor="#F5F7FA">
+
+    <VerticalStackLayout Padding="20" Spacing="15">
+
+        <Label
+            Text="❤️ My Favorites"
+            FontSize="26"
+            FontAttributes="Bold"
+            TextColor="#006C70" />
+
+        <Label
+            Text="Your saved favorite todos"
+            FontSize="14"
+            TextColor="#777777" />
+
         <CollectionView
-            ></CollectionView>
-    </ScrollView>
+            ItemsSource="{Binding FavoriteTodos}"
+            SelectionMode="None">
+
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout
+                    Orientation="Vertical"
+                    ItemSpacing="12" />
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+
+                    <Border
+                        BackgroundColor="White"
+                        Stroke="#E5E5E5"
+                        Padding="15">
+
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="15" />
+                        </Border.StrokeShape>
+
+                        <VerticalStackLayout Spacing="8">
+
+                            <Label
+                                Text="{Binding todo}"
+                                FontSize="18"
+                                FontAttributes="Bold"
+                                TextColor="#006C70" />
+
+                            <Label
+                                Text="{Binding completed, StringFormat='Completed: {0}'}"
+                                FontSize="14"
+                                TextColor="#555555" />
+
+                            <Label
+                                Text="{Binding userId, StringFormat='User ID: {0}'}"
+                                FontSize="14"
+                                TextColor="#777777" />
+
+                        </VerticalStackLayout>
+
+                    </Border>
+
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+
+    </VerticalStackLayout>
+
 </ContentPage>
