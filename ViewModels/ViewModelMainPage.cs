@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using TodoExplorer.Models;
 using TodoExplorer.Services;
+using ISwipeItem = Microsoft.Maui.ISwipeItem;
 
 namespace TodoExplorer.ViewModels;
 
@@ -11,6 +12,7 @@ public partial class ViewModelMainPage : ObservableObject, IViewModelMainPage
 {
     private IFavoritesStorage _favoritesStorage;
     private ITodoService _service;
+    private IFavoritesPageViewModel favoritesViewModel;
     [ObservableProperty] private ObservableCollection<Todo> todos = new();
     [ObservableProperty]
     private bool isLoading;
@@ -30,18 +32,27 @@ public partial class ViewModelMainPage : ObservableObject, IViewModelMainPage
     
     private List<Todo> alltodos = new();
 
+    private readonly INavigationService _navigationService;
 
-    public ViewModelMainPage(IFavoritesStorage favoritesStorage, ITodoService service)
+    public ViewModelMainPage(IFavoritesStorage favoritesStorage, ITodoService service, INavigationService navigationService, IFavoritesPageViewModel favoritesViewModel)
     {
         _favoritesStorage = favoritesStorage;
         _service = service;
+        _navigationService = navigationService;
+        this.favoritesViewModel = favoritesViewModel;
 
     }
 
     [RelayCommand]
-    private void SelectedTodo(Todo todo)
+    private async Task SelectedTodo(Todo todo)
     {
-        
+        await _navigationService.GoToTaskDetailAsync(todo);
+    }
+
+    [RelayCommand]
+    private async Task FavNavNext()
+    {
+        await _navigationService.GoToFavorites(favoritesViewModel);
     }
 
     public async Task LoadTodoAsync()

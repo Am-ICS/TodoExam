@@ -23,6 +23,11 @@
         <CollectionView
             ItemsSource="{Binding FavoriteTodos}"
             SelectionMode="None">
+            <CollectionView.EmptyView>
+                <Label
+                    Text="🤍 No favorites yet!"
+                    FontSize="18"/>
+            </CollectionView.EmptyView>
 
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout
@@ -59,6 +64,7 @@
                                 Text="{Binding userId, StringFormat='User ID: {0}'}"
                                 FontSize="14"
                                 TextColor="#777777" />
+                            
 
                         </VerticalStackLayout>
 

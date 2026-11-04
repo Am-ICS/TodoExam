@@ -85,7 +85,10 @@
                    TextColor="#333333"/>
             <!-- Todo list -->
             <CollectionView ItemsSource="{Binding Todos}"
-                            SelectionMode="None">
+                            SelectionChangedCommand="{Binding SelectedTodoCommand}"
+                            SelectionChangedCommandParameter="{Binding SelectedItem, Source={RelativeSource Self}}" 
+                            SelectionMode="Single">
+    
 
                 <CollectionView.ItemsLayout>
                     <LinearItemsLayout Orientation="Vertical"
@@ -104,7 +107,9 @@
                             </Border.StrokeShape>
 
                             <VerticalStackLayout Spacing="8">
-                                
+                                <Button
+                                    Text="Favorites"
+                                    Command="{Binding BindingContext.FavNavNextCommand, Source={x:Reference MainPageRef}}" />
                                 <Button Text="{Binding IsFavorite, Converter={converter:FavoriteConverter}}"
                                         Command="{Binding BindingContext.FavoriteCommand, Source={x:Reference MainPageRef}}"
                                         CommandParameter="{Binding .}"/>

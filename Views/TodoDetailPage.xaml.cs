@@ -4,15 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TodoExplorer.Models;
+using TodoExplorer.ViewModels;
 
 namespace TodoExplorer.Views;
 
-public partial class TodoDetailPage : ContentView
+public partial class TodoDetailsPage : ContentPage
 {
     private Todo todo;
-    public TodoDetailPage(Todo todo)
+    private TodoDetailsPageViewModel _viewModel;
+    public TodoDetailsPage(Todo todo)
     {
-        this.todo = todo;
         InitializeComponent();
+        BindingContext = new TodoDetailsPageViewModel(todo);
     }
 }

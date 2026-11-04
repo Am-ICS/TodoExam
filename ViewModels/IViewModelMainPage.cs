@@ -9,5 +9,6 @@ public interface IViewModelMainPage
     IRelayCommand SearchCommand { get; }
     IAsyncRelayCommand<Todo> FavoriteCommand { get; }    
     Task LoadTodoAsync();
-    IRelayCommand<Todo> SelectedTodoCommand { get; }
-}
+    IAsyncRelayCommand FavNavNextCommand { get; }
+    IAsyncRelayCommand<Todo> SelectedTodoCommand { get; }
+    }

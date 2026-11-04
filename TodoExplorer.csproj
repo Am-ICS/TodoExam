@@ -12,7 +12,7 @@
 		either BOTH runtimes must be indicated or ONLY macatalyst-x64. -->
 		<!-- For example: <RuntimeIdentifiers>maccatalyst-x64;maccatalyst-arm64</RuntimeIdentifiers> -->
 
-		<OutputType>Exe</OutputType>
+		<OutputType Condition="'$(TargetFramework)' != 'net10.0'">Exe</OutputType>
 		<RootNamespace>TodoExplorer</RootNamespace>
 		<UseMaui>true</UseMaui>
 		<SingleProject>true</SingleProject>
@@ -72,5 +72,6 @@
 		<PackageReference Include="Moq" Version="4.21.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="14.0.1-beta2" />
 	</ItemGroup>
+	
 
 </Project>

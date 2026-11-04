@@ -19,7 +19,7 @@ public class NavigationService : INavigationService
 
     public async Task GoToTaskDetailAsync(Todo todo)
     {
-        throw new NotImplementedException();
+        await _navigation.PushAsync(new TodoDetailsPage(todo));
     }
 
     public async Task GoToFavorites(IFavoritesPageViewModel 

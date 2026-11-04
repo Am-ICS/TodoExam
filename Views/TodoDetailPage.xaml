@@ -1,7 +1,75 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
-<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="TodoExplorer.Views.TodoDetailPage">
-    
-</ContentView>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="TodoExplorer.Views.TodoDetailsPage"
+    Title="Todo Details"
+    BackgroundColor="#F5F7FA">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+
+            <Label
+                Text="📋 Todo Details"
+                FontSize="26"
+                FontAttributes="Bold"
+                TextColor="#006C70" />
+
+            <Border
+                BackgroundColor="White"
+                Stroke="#E5E5E5"
+                Padding="20">
+
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="15" />
+                </Border.StrokeShape>
+
+                <VerticalStackLayout Spacing="15">
+
+                    <Label
+                        Text="Task"
+                        FontSize="14"
+                        TextColor="Gray" />
+
+                    <Label
+                        Text="{Binding SelectedTodo.todo}"
+                        FontSize="20"
+                        FontAttributes="Bold"
+                        TextColor="#006C70" />
+
+                    <Label
+                        Text="Todo ID"
+                        FontSize="14"
+                        TextColor="Gray" />
+
+                    <Label
+                        Text="{Binding SelectedTodo.Id}"
+                        FontSize="16" />
+
+                    <Label
+                        Text="User ID"
+                        FontSize="14"
+                        TextColor="Gray" />
+
+                    <Label
+                        Text="{Binding SelectedTodo.userId}"
+                        FontSize="16" />
+
+                    <Label
+                        Text="Completion Status"
+                        FontSize="14"
+                        TextColor="Gray" />
+
+                    <Label
+                        Text="{Binding SelectedTodo.completed}"
+                        FontSize="16" />
+
+                </VerticalStackLayout>
+
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
