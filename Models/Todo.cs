@@ -1,10 +1,13 @@
+using CommunityToolkit.Mvvm.ComponentModel;
+
 namespace TodoExplorer.Models;
 
 
-public class Todo
+public partial class Todo : ObservableObject
 {
     public int Id { get; set; }
     public string todo { get; set; }
     public int userId { get; set; }
-    public bool IsCompleted { get; set; }
+    public bool completed { get; set; }
+    [ObservableProperty] private bool isFavorite;
 }

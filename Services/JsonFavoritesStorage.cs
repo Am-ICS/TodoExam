@@ -17,7 +17,7 @@ public class JsonFavoritesStorage : IFavoritesStorage
         {
             return new List<int>();
         }
-        StreamReader reader = new StreamReader(filePath);
+        using StreamReader reader = new StreamReader(filePath);
         string json = await reader.ReadToEndAsync();
         List<int> favID = JsonConvert.DeserializeObject<List<int>>(json);
         return favID;

@@ -2,7 +2,9 @@
 <ContentPage
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converter="clr-namespace:TodoExplorer.Services"
     x:Class="TodoExplorer.Views.MainPage"
+    x:Name="MainPageRef"
     BackgroundColor="#F5F7FA">
 
     <ScrollView>
@@ -41,6 +43,7 @@
                 <VerticalStackLayout Spacing="10">
                     <Label Text="Search Todos"
                            FontSize="18"
+                           
                            FontAttributes="Bold"
                            TextColor="#333333"/>
                     
@@ -49,6 +52,7 @@
                            BackgroundColor="#F5F7FA"/>
                     
                     <Picker Title="Completion status"
+                            TextColor="#006C70"
                             SelectedItem="{Binding CompletionFilter}">
                         <Picker.Items>
                             <x:String>All</x:String>
@@ -100,7 +104,10 @@
                             </Border.StrokeShape>
 
                             <VerticalStackLayout Spacing="8">
-
+                                
+                                <Button Text="{Binding IsFavorite, Converter={converter:FavoriteConverter}}"
+                                        Command="{Binding BindingContext.FavoriteCommand, Source={x:Reference MainPageRef}}"
+                                        CommandParameter="{Binding .}"/>
                                 <!-- Todo text -->
                                 <Label Text="{Binding todo}"
                                        FontSize="18"

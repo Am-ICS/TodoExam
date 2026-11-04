@@ -24,6 +24,8 @@ public partial class ViewModelMainPage : ObservableObject, IViewModelMainPage
     [ObservableProperty]
     private string completionFilter = "All";
     [ObservableProperty]
+    private string userIdFilter = "";
+    [ObservableProperty]
     private bool isVisible = false;
     
     private List<Todo> alltodos = new();
@@ -49,7 +51,16 @@ public partial class ViewModelMainPage : ObservableObject, IViewModelMainPage
             ErrorMessage = "";
             dynamic response = await this._service.GetTodos();
             alltodos = response.todos.ToObject<List<Todo>>();
-
+            
+            
+            List<int> favoriteIds = await _favoritesStorage.LoadFavorites();
+            foreach (Todo todo in alltodos)
+            {
+                if (favoriteIds.Contains(todo.Id))
+                {
+                    todo.IsFavorite = true;
+                }
+            }
 
             Todos = new ObservableCollection<Todo>(alltodos);
         }
@@ -66,26 +77,48 @@ public partial class ViewModelMainPage : ObservableObject, IViewModelMainPage
     [RelayCommand]
     private void Search()
     {
-        if (string.IsNullOrWhiteSpace(SearchText))
+        IEnumerable<Todo> filteredTodos = alltodos;
+
+        if (!string.IsNullOrWhiteSpace(SearchText))
+        { 
+            filteredTodos = alltodos.Where(todo => todo.todo.Contains(SearchText, StringComparison.OrdinalIgnoreCase)).ToList();
+
+        }
+        
+        if (int.TryParse(UserIdFilter, out int userId))
         {
-            Todos = new ObservableCollection<Todo>(alltodos);
-            return;
+            filteredTodos = filteredTodos.Where(todo => todo.userId == userId).ToList();
         }
 
-        var filteredTodos = alltodos.Where(todo => todo.todo.Contains(SearchText, StringComparison.OrdinalIgnoreCase)).ToList();
-        Todos = new ObservableCollection<Todo>(filteredTodos);
+        if (CompletionFilter == "Completed")
+        {
+            filteredTodos = filteredTodos.Where(todo => todo.completed == true).ToList();
+        } 
+        else if (CompletionFilter == "Incomplete")
+        {
+            filteredTodos = filteredTodos.Where(todo => todo.completed == false).ToList();
+        }
+        Todos = new ObservableCollection<Todo>(filteredTodos.ToList());
+
     }
     
-    [RelayCommand]
-    private void FilterByCompletion()
-    {
-        
-    }
 
     [RelayCommand]
     private void ToggleFilter()
     {
         IsVisible = !IsVisible;
+    }
+
+    [RelayCommand]
+    private async Task Favorite(Todo todo)
+    { 
+        todo.IsFavorite = !todo.IsFavorite;l;
+
+        List<int> favoriteIds = alltodos
+            .Where(todo => todo.IsFavorite == true)
+            .Select(todo => todo.Id)
+            .ToList();
+        await _favoritesStorage.SaveFavorites(favoriteIds);
     }
 
 
