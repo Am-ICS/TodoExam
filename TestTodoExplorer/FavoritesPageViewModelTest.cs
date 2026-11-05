@@ -12,26 +12,66 @@ public class FavoritesPageViewModelTest
     public async Task LoadFavoriteTodos_ShouldLoadFavorites()
     {
         // Setup
-        var todos = new Todo { id = 2 };
-        var mockTodo = new Mock<ITodoService>();
-        var mockStorage = new Mock<IFavoritesStorage>();
-        ITodoService service = mockTodo.Object;
-        IFavoritesStorage storage = mockStorage.Object;
-        var mockNav = new Mock<INavigationService>();
-        INavigationService nav = mockNav.Object;
-
-        mockStorage.Setup(s => s.LoadFavorites()).ReturnsAsync(new List<int> { 2 });
-        var response = new
+        var todo = new Todo
         {
-            todos = JArray.FromObject(new List<Todo> { todo })
+            Id = 2
+
         };
 
-        mockTodo
-            .Setup(s => s.GetTodos())
-            .ReturnsAsync((dynamic)response);
+        
+        var MockNav = new Mock<INavigationService>();
+        INavigationService nav = MockNav.Object;
+
+        var MockfavService = new Mock<ITodoService>();
+        ITodoService favService = MockfavService.Object;
+
+        var MockFavStorage = new Mock<IFavoritesStorage>();
+        IFavoritesStorage favStorage = MockFavStorage.Object;
+        dynamic response = JObject.FromObject(new
+        {
+            todos = new List<Todo> { todo }
+        });
+        MockfavService
+            .Setup(service => service.GetTodos())
+            .ReturnsAsync((object)response);
+        // Setup
+                MockFavStorage.Setup(storage => storage.LoadFavorites())
+                    .ReturnsAsync(new List<int> { 2 });
+
+                var viewModel = new FavoritesPageViewModel(favStorage, favService);
+
         // Invoke
-        var viewModel = new FavoritesPageViewModel(mockStorage, mockTodo);
-        await viewModel.LoadFavoriteTodos();
+                await viewModel.LoadFavoriteTodos();
+
         // Assert
+                MockFavStorage.Verify(storage => storage.LoadFavorites(), Times.Once);
+                MockfavService.Verify(service => service.GetTodos(), Times.Once);
+                
+        
+    }
+
+    [Fact]
+    public async Task SaveFavorites_ShouldBeCalledOnce()
+    {
+        var mockStorage = new Mock<IFavoritesStorage>();
+        var storage = mockStorage.Object;
+        
+        var mockService = new Mock<ITodoService>();
+        var favService = mockService.Object;       
+        var favoristeId = new List<int> { 2, 5 };
+
+        // Setup
+        
+        mockStorage.Setup(storage => storage.SaveFavorites(favoristeId))
+            .Returns(Task.CompletedTask);
+                
+                
+        // Invoke
+
+        await storage.SaveFavorites(favoristeId);
+
+        // Assert
+        mockStorage.Verify(storage => storage.SaveFavorites(favoristeId), Times.Once);
+
     }
 }
