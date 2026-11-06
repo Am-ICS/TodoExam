@@ -22,8 +22,7 @@ public class NavigationService : INavigationService
         await _navigation.PushAsync(new TodoDetailsPage(todo));
     }
 
-    public async Task GoToFavorites(IFavoritesPageViewModel 
-        favoritesViewModel)
+    public async Task GoToFavorites(IFavoritesPageViewModel favoritesViewModel)
     {
         await this._navigation.PushAsync(new FavoritesPage(favoritesViewModel));
     }
