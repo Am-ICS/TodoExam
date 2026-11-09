@@ -85,7 +85,7 @@
                    TextColor="#333333"/>
             <!-- Todo list -->
             <CollectionView ItemsSource="{Binding Todos}"
-                            SelectionChangedCommand="{Binding SelectedTodoCommand}"
+                            SelectionChangedCommand="{Binding ShowDetailsCommand}"
                             SelectionChangedCommandParameter="{Binding SelectedItem, Source={RelativeSource Self}}" 
                             SelectionMode="Single">
     

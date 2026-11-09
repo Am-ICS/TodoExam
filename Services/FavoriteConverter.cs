@@ -6,7 +6,7 @@ public class FavoriteConverter : IValueConverter, IMarkupExtension
 {
     public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        bool IsFavorite = value is bool b && b;
+        bool IsFavorite = (bool)value;
         if (IsFavorite)
         {
             return "❤️";

@@ -10,5 +10,5 @@ public interface IViewModelMainPage
     IAsyncRelayCommand<Todo> FavoriteCommand { get; }    
     Task LoadTodoAsync();
     IAsyncRelayCommand FavNavNextCommand { get; }
-    IAsyncRelayCommand<Todo> SelectedTodoCommand { get; }
+    IAsyncRelayCommand<Todo> ShowDetailsCommand { get; }
     }

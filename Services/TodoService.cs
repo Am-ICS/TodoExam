@@ -5,7 +5,8 @@ using TodoExplorer.Models;
 
 namespace TodoExplorer.Services;
 
-public partial class TodoService: ObservableObject, ITodoService
+public partial class 
+    TodoService: ObservableObject, ITodoService
 {
     private HttpClient httpClient;
     [ObservableProperty] private ObservableCollection<Todo> todos = new();
@@ -17,14 +18,19 @@ public partial class TodoService: ObservableObject, ITodoService
         this.httpClient = httpClient;
         
     }
-
     private async Task<dynamic> GetAsync(string url)
     {
-        Uri uri = new Uri(url);
+        Uri uri = new(url);
         HttpResponseMessage response = await httpClient.GetAsync(uri);
-        String resposeConent = await response.Content.ReadAsStringAsync();
-        dynamic json = JsonConvert.DeserializeObject<dynamic>(resposeConent);
-        return json;
+        string responseContent = await response.Content.ReadAsStringAsync();
+        dynamic json = JsonConvert.DeserializeObject(responseContent);
+        return json; 
+
+        // Uri uri = new Uri(url);
+        //HttpResponseMessage response = await httpClient.GetAsync(uri);
+        //string resposeContent = await response.Content.ReadAsStringAsync();
+        //dynamic json = JsonConvert.DeserializeObject(resposeContent);
+        //return json;
 
     }
     public Task<dynamic> GetTodos()

@@ -18,7 +18,7 @@ public class TodoDetailsPageViewModelTests
             todo = "Study"
         };
         //Invoke
-        var viewModel = new TodoDetailsPageViewModel(todo);
+        var viewModel = new TodoDetailsPageViewModel();
         //Assert
         Assert.Equal(todo, viewModel.SelectedTodo);
     }

@@ -17,17 +17,20 @@ public class JsonFavoritesStorage : IFavoritesStorage
         {
             return new List<int>();
         }
-        using StreamReader reader = new StreamReader(filePath);
+
+        StreamReader reader = new StreamReader(filePath);
         string json = await reader.ReadToEndAsync();
-        List<int> favID = JsonConvert.DeserializeObject<List<int>>(json);
-        return favID;
+        List<int> favoriteIds = JsonConvert.DeserializeObject<List<int>>(json);
+        reader.Close();
+        return favoriteIds;
     }
 
     public async Task SaveFavorites(List<int> favoriteIds)
     {
         StreamWriter writer = new StreamWriter(filePath);
         string json = JsonConvert.SerializeObject(favoriteIds);
+
         await writer.WriteAsync(json);
         writer.Close();
-    }
+    } 
 }

@@ -7,7 +7,7 @@ public interface INavigationService
 {
     void SetNavigation(INavigation navigation);
     Task PopAsync();
-    Task GoToTaskDetailAsync(Todo todo);
+    Task GoToTaskDetailAsync(TodoDetailsPageViewModel  viewModel);
     Task GoToFavorites(IFavoritesPageViewModel
         favoritesViewModel);
 }

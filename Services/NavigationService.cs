@@ -17,9 +17,9 @@ public class NavigationService : INavigationService
         await this._navigation.PopAsync();
     }
 
-    public async Task GoToTaskDetailAsync(Todo todo)
+    public async Task GoToTaskDetailAsync(TodoDetailsPageViewModel viewModel)
     {
-        await _navigation.PushAsync(new TodoDetailsPage(todo));
+        await _navigation.PushAsync(new TodoDetailsPage(viewModel));
     }
 
     public async Task GoToFavorites(IFavoritesPageViewModel favoritesViewModel)

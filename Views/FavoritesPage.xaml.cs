@@ -19,10 +19,4 @@ public partial class FavoritesPage : ContentPage
         BindingContext = favoritesViewModel;
     }
 
-    protected async override void OnAppearing()
-    {
-        base.OnAppearing();
-        await _favoritesViewModel.LoadFavoriteTodos();  
-    }
-    
 }

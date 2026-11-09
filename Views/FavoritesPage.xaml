@@ -21,7 +21,7 @@
             TextColor="#777777" />
 
         <CollectionView
-            ItemsSource="{Binding FavoriteTodos}"
+            ItemsSource="{Binding FavTodos}"
             SelectionMode="None">
             <CollectionView.EmptyView>
                 <Label

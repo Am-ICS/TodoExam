@@ -1,8 +1,11 @@
-﻿namespace TodoExplorer.ViewModels;
+﻿using System.Collections.ObjectModel;
+using TodoExplorer.Models;
+using TodoExplorer.Services;
+
+namespace TodoExplorer.ViewModels;
 
 public interface IFavoritesPageViewModel
-{
-    Task LoadFavoriteTodos();
-    
-    
+
+{   
+    public ObservableCollection<Todo> FavTodos { get; set; }  
 }

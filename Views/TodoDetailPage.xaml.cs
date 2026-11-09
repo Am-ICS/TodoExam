@@ -10,11 +10,9 @@ namespace TodoExplorer.Views;
 
 public partial class TodoDetailsPage : ContentPage
 {
-    private Todo todo;
-    private TodoDetailsPageViewModel _viewModel;
-    public TodoDetailsPage(Todo todo)
+    public TodoDetailsPage(TodoDetailsPageViewModel viewModel)
     {
         InitializeComponent();
-        BindingContext = new TodoDetailsPageViewModel(todo);
+        BindingContext = viewModel;
     }
 }

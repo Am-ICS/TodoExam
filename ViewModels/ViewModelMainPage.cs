@@ -12,7 +12,8 @@ public partial class ViewModelMainPage : ObservableObject, IViewModelMainPage
 {
     private IFavoritesStorage _favoritesStorage;
     private ITodoService _service;
-    private IFavoritesPageViewModel favoritesViewModel;
+    private readonly IFavoritesPageViewModel favoritesViewModel;
+    private readonly TodoDetailsPageViewModel _detailsPageViewModel;
     [ObservableProperty] private ObservableCollection<Todo> todos = new();
     [ObservableProperty]
     private bool isLoading;
@@ -34,27 +35,39 @@ public partial class ViewModelMainPage : ObservableObject, IViewModelMainPage
 
     private readonly INavigationService _navigationService;
 
-    public ViewModelMainPage(IFavoritesStorage favoritesStorage, ITodoService service, INavigationService navigationService, IFavoritesPageViewModel favoritesViewModel)
+    public ViewModelMainPage(IFavoritesStorage favoritesStorage, ITodoService service, INavigationService navigationService, IFavoritesPageViewModel favoritesViewModel, TodoDetailsPageViewModel detailsPageViewModel)
     {
         _favoritesStorage = favoritesStorage;
         _service = service;
         _navigationService = navigationService;
         this.favoritesViewModel = favoritesViewModel;
-
+        _detailsPageViewModel = detailsPageViewModel;
     }
 
     [RelayCommand]
-    private async Task SelectedTodo(Todo todo)
+    public async Task ShowDetails(Todo todo)
     {
-        await _navigationService.GoToTaskDetailAsync(todo);
+        if (todo is null) return;
+        
+        this._detailsPageViewModel.SelectedTodo = todo;
+        await this._navigationService.GoToTaskDetailAsync(this._detailsPageViewModel);
     }
 
     [RelayCommand]
     private async Task FavNavNext()
     {
-        await _navigationService.GoToFavorites(favoritesViewModel);
-    }
 
+        List<int> favoriteIds = await _favoritesStorage.LoadFavorites();
+        List<Todo> favModels = alltodos.Where(todo => favoriteIds.Contains(todo.Id)).ToList();
+        ObservableCollection<Todo> favorites = new ObservableCollection<Todo>(favModels);
+
+        this.favoritesViewModel.FavTodos = favorites;
+
+        await _navigationService.GoToFavorites(favoritesViewModel);
+
+
+        //await _navigationService.GoToFavorites(favoritesViewModel);
+    }
     public async Task LoadTodoAsync()
     {
         if (IsLoading == true)
@@ -91,7 +104,7 @@ public partial class ViewModelMainPage : ObservableObject, IViewModelMainPage
         }
     }
 
-    [RelayCommand]
+    [RelayCommand] 
     private void Search()
     {
         IEnumerable<Todo> filteredTodos = alltodos;
@@ -137,6 +150,4 @@ public partial class ViewModelMainPage : ObservableObject, IViewModelMainPage
             .ToList();
         await _favoritesStorage.SaveFavorites(favoriteIds);
     }
-
-
 }
